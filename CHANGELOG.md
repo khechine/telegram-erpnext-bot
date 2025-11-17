@@ -2,6 +2,63 @@
 
 Toutes les modifications notables de ce projet seront documentées dans ce fichier.
 
+## [1.1.0] - 2024-11-17
+
+### ✨ Ajouté
+
+#### 📄 Création de Devis Complète
+- Création interactive de devis via conversation
+- Ajout multi-articles avec quantités
+- Date de validité configurable
+- Conditions personnalisables
+- Validation client et articles en temps réel
+- Soumission automatique du devis
+- Calcul automatique des totaux
+
+#### 📧 Envoi de Devis par Email
+- Service email complet avec nodemailer
+- Template HTML professionnel pour les devis
+- Template texte brut (fallback)
+- Support Gmail et autres SMTP
+- Envoi avec logo et branding
+- Vérification automatique de l'email client
+- Logs détaillés des envois
+
+#### 🎨 Interface Améliorée
+- Bouton d'envoi rapide sur chaque devis
+- Vue détaillée des devis
+- Workflows guidés pour création
+- Gestion d'erreurs contextuelle
+- Messages de confirmation enrichis
+
+#### 🔧 Configuration
+- Variables d'environnement email (7 nouvelles)
+- Validation configuration email
+- Test connexion SMTP au démarrage
+
+#### 📚 Documentation
+- Guide complet création/envoi devis (QUOTATIONS-GUIDE.md)
+- Exemples d'utilisation
+- Troubleshooting
+- Configuration Gmail détaillée
+
+### 🔄 Modifié
+
+#### Services
+- Service ERPNext : méthodes devis étendues
+- Service Rasa : détection intention send_quotation
+- Bot : nouveaux callbacks et états
+
+#### Contrôleurs
+- QuotationController complètement réécrit
+- Gestion d'état pour conversations multi-étapes
+- Validation en temps réel
+
+#### Rasa
+- Nouvelle intention : send_quotation
+- Nouvelle entité : quotation_name
+- 12+ exemples d'entraînement ajoutés
+
 ## [1.0.0] - 2024-11-17
 
 ### ✨ Ajouté

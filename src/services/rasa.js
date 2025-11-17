@@ -129,6 +129,7 @@ class RasaService {
     if (lowerText.match(/devis|quotation/)) {
       if (lowerText.match(/créer|nouveau/)) return 'create_quotation';
       if (lowerText.match(/liste|voir/)) return 'list_quotations';
+      if (lowerText.match(/envoyer|email|mail|transmettre/)) return 'send_quotation';
       return 'list_quotations';
     }
 

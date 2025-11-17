@@ -132,6 +132,20 @@ nlu:
       - détails du devis
       - ouvrir le devis
 
+  - intent: send_quotation
+    examples: |
+      - envoyer le devis
+      - envoyer devis par email
+      - envoyer par mail
+      - envoyer le devis au client
+      - email le devis
+      - transmettre le devis
+      - envoyer devis [QUO-2024-001](quotation_name)
+      - envoyer par email le devis
+      - mail le devis au client
+      - je veux envoyer un devis
+      - peux-tu envoyer le devis
+
   # Gestion des factures
   - intent: create_invoice
     examples: |

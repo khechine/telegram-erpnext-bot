@@ -39,6 +39,15 @@ const envSchema = Joi.object({
   ENABLE_RASA: Joi.boolean().default(true),
   ENABLE_WEBHOOK: Joi.boolean().default(false),
   ENABLE_REDIS: Joi.boolean().default(false),
+
+  // Email
+  EMAIL_HOST: Joi.string().default('smtp.gmail.com'),
+  EMAIL_PORT: Joi.number().default(587),
+  EMAIL_SECURE: Joi.boolean().default(false),
+  EMAIL_USER: Joi.string().optional(),
+  EMAIL_PASSWORD: Joi.string().optional(),
+  EMAIL_FROM: Joi.string().email().optional(),
+  EMAIL_FROM_NAME: Joi.string().default('Bot ERPNext'),
 }).unknown();
 
 const { error, value: env } = envSchema.validate(process.env);
@@ -86,5 +95,14 @@ module.exports = {
     rasa: env.ENABLE_RASA === 'true' || env.ENABLE_RASA === true,
     webhook: env.ENABLE_WEBHOOK === 'true' || env.ENABLE_WEBHOOK === true,
     redis: env.ENABLE_REDIS === 'true' || env.ENABLE_REDIS === true,
+  },
+  email: {
+    host: env.EMAIL_HOST,
+    port: env.EMAIL_PORT,
+    secure: env.EMAIL_SECURE === 'true' || env.EMAIL_SECURE === true,
+    user: env.EMAIL_USER,
+    password: env.EMAIL_PASSWORD,
+    from: env.EMAIL_FROM,
+    fromName: env.EMAIL_FROM_NAME,
   },
 };

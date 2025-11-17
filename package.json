@@ -34,7 +34,8 @@
     "rate-limiter-flexible": "^4.0.0",
     "joi": "^17.11.0",
     "moment": "^2.29.4",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "nodemailer": "^6.9.7"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",

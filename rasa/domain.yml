@@ -21,6 +21,7 @@ intents:
   - list_quotations
   - search_quotation
   - view_quotation
+  - send_quotation
   
   # Factures
   - create_invoice
@@ -57,6 +58,7 @@ entities:
   - date
   - status
   - period
+  - quotation_name
 
 slots:
   customer_name:

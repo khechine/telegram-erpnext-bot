@@ -153,6 +153,7 @@ class ERPNextClient {
           description: item.description,
         })),
         valid_till: data.validTill,
+        terms: data.terms || '',
       });
       return response.data.data;
     } catch (error) {
@@ -200,6 +201,48 @@ class ERPNextClient {
     } catch (error) {
       throw this.handleError(error);
     }
+  }
+
+  /**
+   * Soumettre un devis (changer le statut de Draft à Submitted)
+   */
+  async submitQuotation(quotationName) {
+    try {
+      const response = await this.client.post(`/resource/Quotation/${quotationName}/submit`);
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Obtenir le PDF d'un devis
+   */
+  async getQuotationPDF(quotationName) {
+    try {
+      const response = await this.client.get(
+        `/method/frappe.utils.print_format.download_pdf`,
+        {
+          params: {
+            doctype: 'Quotation',
+            name: quotationName,
+            format: 'Standard',
+            no_letterhead: 0,
+          },
+          responseType: 'arraybuffer',
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Obtenir l'URL du PDF d'un devis
+   */
+  getQuotationPDFUrl(quotationName) {
+    return `${this.baseURL}/api/method/frappe.utils.print_format.download_pdf?doctype=Quotation&name=${quotationName}&format=Standard&no_letterhead=0`;
   }
 
   // ==================== SALES INVOICES ====================

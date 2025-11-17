@@ -36,7 +36,6 @@ Soyez respectueux et constructif dans toutes vos interactions.
 ### 📝 Améliorer la Documentation
 
 Les améliorations de documentation sont toujours bienvenues !
-
 - README.md
 - QUICKSTART.md
 - docs/API.md
@@ -47,7 +46,7 @@ Les améliorations de documentation sont toujours bienvenues !
 ### 1. Fork & Clone
 
 ```bash
-git clone https://github.com/khechine/telegram-erpnext-bot.git
+git clone https://github.com/your-username/telegram-erpnext-bot.git
 cd telegram-erpnext-bot
 ```
 
@@ -106,7 +105,6 @@ Fixes #123
 ```
 
 Types :
-
 - `feat`: Nouvelle fonctionnalité
 - `fix`: Correction de bug
 - `docs`: Documentation
@@ -116,7 +114,6 @@ Types :
 - `chore`: Maintenance, dépendances, etc.
 
 Exemples :
-
 ```
 feat(customers): add customer deletion feature
 fix(rasa): handle connection timeout gracefully
@@ -145,25 +142,25 @@ try {
   const result = await erpnext.someMethod();
   await ctx.reply(`✅ ${result}`);
 } catch (error) {
-  logger.error("Error in someMethod:", error);
-  await ctx.reply("❌ Une erreur est survenue.");
+  logger.error('Error in someMethod:', error);
+  await ctx.reply('❌ Une erreur est survenue.');
 }
 ```
 
 #### 2. Logging
 
 ```javascript
-const logger = require("../utils/logger");
+const logger = require('../utils/logger');
 
-logger.info("User action", { userId, action });
-logger.debug("Detailed info", { data });
-logger.error("Error occurred", { error: error.message });
+logger.info('User action', { userId, action });
+logger.debug('Detailed info', { data });
+logger.error('Error occurred', { error: error.message });
 ```
 
 #### 3. Validation
 
 ```javascript
-const Joi = require("joi");
+const Joi = require('joi');
 
 const schema = Joi.object({
   name: Joi.string().required(),
@@ -185,10 +182,11 @@ if (error) {
 
 ```javascript
 await ctx.reply(
-  "✅ Client créé avec succès !\n\n" + "Que souhaitez-vous faire maintenant ?",
+  '✅ Client créé avec succès !\n\n' +
+  'Que souhaitez-vous faire maintenant ?',
   Markup.inlineKeyboard([
-    [Markup.button.callback("➕ Créer un autre", "customer_create")],
-    [Markup.button.callback("📋 Voir tous", "customer_list")],
+    [Markup.button.callback('➕ Créer un autre', 'customer_create')],
+    [Markup.button.callback('📋 Voir tous', 'customer_list')],
   ])
 );
 ```
@@ -199,8 +197,8 @@ Ajouter des tests pour toute nouvelle fonctionnalité :
 
 ```javascript
 // tests/myFeature.test.js
-describe("My Feature", () => {
-  test("should do something", async () => {
+describe('My Feature', () => {
+  test('should do something', async () => {
     const result = await myFunction();
     expect(result).toBe(expectedValue);
   });
@@ -208,7 +206,6 @@ describe("My Feature", () => {
 ```
 
 Lancer les tests :
-
 ```bash
 npm test
 ```

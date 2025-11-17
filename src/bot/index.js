@@ -130,6 +130,15 @@ class TelegramBot {
     // Devis
     this.bot.action('quotation_create', (ctx) => quotationController.startCreateQuotation(ctx));
     this.bot.action('quotation_list', (ctx) => quotationController.listQuotations(ctx));
+    this.bot.action('quotation_send', (ctx) => quotationController.startSendQuotation(ctx));
+    this.bot.action(/^quotation_view_(.+)$/, (ctx) => {
+      const quotationName = ctx.match[1];
+      return quotationController.viewQuotation(ctx, quotationName);
+    });
+    this.bot.action(/^quotation_send_(.+)$/, (ctx) => {
+      const quotationName = ctx.match[1];
+      return quotationController.sendQuotationByEmail(ctx, quotationName);
+    });
 
     // Factures
     this.bot.action('invoice_list', (ctx) => invoiceController.listInvoices(ctx));
@@ -189,6 +198,27 @@ class TelegramBot {
       case 'customer_phone':
         await customerController.handleCustomerPhone(ctx);
         break;
+      
+      // Devis
+      case 'quotation_customer':
+        await quotationController.handleQuotationCustomer(ctx);
+        break;
+      case 'quotation_item_code':
+        await quotationController.handleQuotationItemCode(ctx);
+        break;
+      case 'quotation_item_qty':
+        await quotationController.handleQuotationItemQty(ctx);
+        break;
+      case 'quotation_valid_till':
+        await quotationController.handleQuotationValidTill(ctx);
+        break;
+      case 'quotation_terms':
+        await quotationController.handleQuotationTerms(ctx);
+        break;
+      case 'send_quotation_name':
+        await quotationController.sendQuotationByEmail(ctx);
+        break;
+      
       default:
         await ctx.reply('❌ État inconnu. Retour au menu principal.', this.getMainMenu());
         ctx.session.state = {};
@@ -234,6 +264,10 @@ class TelegramBot {
 
         case 'list_quotations':
           await quotationController.listQuotations(ctx);
+          break;
+
+        case 'send_quotation':
+          await quotationController.startSendQuotation(ctx);
           break;
 
         // Factures
