@@ -17,12 +17,14 @@ Bot Telegram intelligent intégré avec Rasa et ERPNext pour la gestion complèt
 ## ✨ Fonctionnalités
 
 ### 🤖 Intelligence Artificielle
+
 - **Rasa NLU** : Traitement du langage naturel en français
 - **15+ intentions** : Reconnaissance automatique des demandes
 - **Extraction d'entités** : Nom, email, téléphone, montants, dates
 - **Fallback intelligent** : Mode dégradé sans Rasa
 
 ### 🏢 Intégration ERPNext Complète
+
 - **Gestion clients** : Création, consultation, recherche, mise à jour
 - **Devis** : Création et suivi des quotations
 - **Factures** : Gestion complète des sales invoices
@@ -30,6 +32,7 @@ Bot Telegram intelligent intégré avec Rasa et ERPNext pour la gestion complèt
 - **Articles** : Recherche et consultation
 
 ### 📊 Rapports Avancés
+
 - **Rapport des ventes** : Statistiques et métriques de vente
 - **Rapport clients** : Répartition par groupe, territoire, type
 - **Rapport stock** : État des stocks par catégorie
@@ -37,6 +40,7 @@ Bot Telegram intelligent intégré avec Rasa et ERPNext pour la gestion complèt
 - **Dashboard global** : Vue d'ensemble en temps réel
 
 ### 💬 Interface Telegram
+
 - **Menus interactifs** : Navigation par boutons inline
 - **Messages formatés** : Markdown avec emojis
 - **Gestion d'état** : Conversations contextuelles
@@ -89,7 +93,7 @@ Bot Telegram intelligent intégré avec Rasa et ERPNext pour la gestion complèt
 ### 1. Cloner le projet
 
 ```bash
-git clone https://github.com/votre-repo/telegram-erpnext-bot.git
+git clone https://github.com/khechine/telegram-erpnext-bot.git
 cd telegram-erpnext-bot
 ```
 
@@ -142,6 +146,7 @@ rasa run --enable-api --cors "*" --port 5005
 ```
 
 Dans `.env`, activer Rasa :
+
 ```env
 ENABLE_RASA=true
 ```
@@ -151,11 +156,13 @@ ENABLE_RASA=true
 ### Démarrer le bot
 
 Mode développement (avec rechargement auto) :
+
 ```bash
 npm run dev
 ```
 
 Mode production :
+
 ```bash
 npm start
 ```
@@ -171,6 +178,7 @@ npm start
 ### Exemples de requêtes en langage naturel
 
 **Clients :**
+
 ```
 "Créer un client Dupont avec email dupont@example.com"
 "Liste des clients"
@@ -178,6 +186,7 @@ npm start
 ```
 
 **Factures :**
+
 ```
 "Rapport des ventes"
 "Liste des factures payées"
@@ -185,6 +194,7 @@ npm start
 ```
 
 **Rapports :**
+
 ```
 "Dashboard"
 "Rapport financier"
@@ -236,12 +246,14 @@ telegram-erpnext-bot/
 ### Logger
 
 Le système de logging utilise Winston avec 3 niveaux :
+
 - `error` : Erreurs critiques
 - `warn` : Avertissements
 - `info` : Informations générales
 - `debug` : Debug détaillé
 
 Logs disponibles dans :
+
 - `logs/error.log` : Erreurs uniquement
 - `logs/combined.log` : Tous les logs
 
@@ -304,6 +316,7 @@ pm2 start "rasa run --enable-api --cors '*' --port 5005" --name rasa-server
 ### Mode Webhook (pour la production)
 
 Dans `.env` :
+
 ```env
 ENABLE_WEBHOOK=true
 TELEGRAM_WEBHOOK_DOMAIN=https://your-domain.com
@@ -335,6 +348,7 @@ MIT License
 ## 🤝 Support
 
 Pour toute question ou problème :
+
 - Vérifier les logs : `logs/combined.log`
 - Tester la connexion ERPNext
 - Vérifier que Rasa est en ligne (si activé)
