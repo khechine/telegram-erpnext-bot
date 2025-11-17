@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Tests
+tests/
+coverage/
+.nyc_output/
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Rasa
+rasa/models/
+rasa/.rasa/
+rasa/__pycache__/
+
+# Build
+dist/
+build/
+
+# Misc
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak

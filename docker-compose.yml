@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # Bot Telegram
+  telegram-bot:
+    build: .
+    container_name: telegram-erpnext-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - RASA_URL=http://rasa:5005
+    depends_on:
+      - rasa
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - bot-network
+
+  # Rasa NLU (optionnel)
+  rasa:
+    image: rasa/rasa:3.6.0
+    container_name: rasa-server
+    restart: unless-stopped
+    command: run --enable-api --cors "*"
+    volumes:
+      - ./rasa:/app
+    ports:
+      - "5005:5005"
+    networks:
+      - bot-network
+
+  # Redis (optionnel, pour sessions)
+  redis:
+    image: redis:7-alpine
+    container_name: bot-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - bot-network
+
+networks:
+  bot-network:
+    driver: bridge
+
+volumes:
+  redis-data:

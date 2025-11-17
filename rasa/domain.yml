@@ -1,0 +1,104 @@
+version: "3.1"
+
+intents:
+  # Navigation
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - menu
+  - help
+  
+  # Clients
+  - create_customer
+  - list_customers
+  - search_customer
+  - update_customer
+  - delete_customer
+  
+  # Devis
+  - create_quotation
+  - list_quotations
+  - search_quotation
+  - view_quotation
+  
+  # Factures
+  - create_invoice
+  - list_invoices
+  - search_invoice
+  - view_invoice
+  - pay_invoice
+  
+  # Stock
+  - list_items
+  - search_item
+  - check_stock
+  - low_stock_alert
+  
+  # Rapports
+  - sales_report
+  - customer_report
+  - stock_report
+  - financial_report
+  - dashboard
+  - reports_menu
+
+entities:
+  - name
+  - email
+  - phone
+  - address
+  - customer_name
+  - item_code
+  - item_name
+  - quantity
+  - amount
+  - currency
+  - date
+  - status
+  - period
+
+slots:
+  customer_name:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: customer_name
+  
+  email:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: email
+  
+  phone:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: phone
+  
+  item_code:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: item_code
+  
+  amount:
+    type: float
+    mappings:
+      - type: from_entity
+        entity: amount
+
+responses:
+  utter_greet:
+    - text: "Bonjour ! Comment puis-je vous aider aujourd'hui ?"
+  
+  utter_goodbye:
+    - text: "Au revoir ! À bientôt !"
+  
+  utter_default:
+    - text: "Désolé, je n'ai pas compris. Pouvez-vous reformuler ?"
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

@@ -1,0 +1,264 @@
+version: "3.1"
+
+nlu:
+  # Navigation et salutations
+  - intent: greet
+    examples: |
+      - bonjour
+      - salut
+      - hey
+      - hello
+      - bonsoir
+      - bonne journée
+      - coucou
+      - yo
+
+  - intent: goodbye
+    examples: |
+      - au revoir
+      - bye
+      - à bientôt
+      - à plus
+      - ciao
+      - tchao
+      - salut
+      - bonne journée
+
+  - intent: affirm
+    examples: |
+      - oui
+      - yes
+      - ouais
+      - d'accord
+      - ok
+      - bien sûr
+      - exact
+      - correct
+      - affirmatif
+
+  - intent: deny
+    examples: |
+      - non
+      - no
+      - pas du tout
+      - jamais
+      - négatif
+      - nope
+      - nan
+
+  - intent: menu
+    examples: |
+      - menu
+      - menu principal
+      - retour
+      - retour au menu
+      - accueil
+      - home
+      - revenir en arrière
+
+  - intent: help
+    examples: |
+      - aide
+      - help
+      - comment ça marche
+      - que puis-je faire
+      - quelles sont les commandes
+      - commandes disponibles
+      - fonctionnalités
+      - guide
+
+  # Gestion des clients
+  - intent: create_customer
+    examples: |
+      - créer un client
+      - ajouter un client
+      - nouveau client
+      - enregistrer un client
+      - créer un client nommé [Dupont](name)
+      - ajouter [Marie Dubois](name) comme client
+      - créer un client [Jean Martin](name) avec email [jean@example.com](email)
+      - nouveau client [Sophie](name) téléphone [0612345678](phone)
+      - enregistrer [Entreprise ABC](name) email [contact@abc.com](email) tél [+21612345678](phone)
+      - je veux créer un client
+      - besoin de créer un nouveau client
+
+  - intent: list_customers
+    examples: |
+      - liste des clients
+      - afficher les clients
+      - voir les clients
+      - tous les clients
+      - montre-moi les clients
+      - clients
+      - liste clients
+      - quels sont mes clients
+      - combien de clients
+
+  - intent: search_customer
+    examples: |
+      - chercher un client
+      - rechercher [Dupont](customer_name)
+      - trouver le client [Martin](customer_name)
+      - où est [Sophie](customer_name)
+      - client [ABC](customer_name)
+      - recherche client
+      - trouver un client
+
+  # Gestion des devis
+  - intent: create_quotation
+    examples: |
+      - créer un devis
+      - nouveau devis
+      - faire un devis
+      - ajouter un devis
+      - devis pour [Dupont](customer_name)
+      - créer devis client [Martin](customer_name)
+      - je veux faire un devis
+
+  - intent: list_quotations
+    examples: |
+      - liste des devis
+      - afficher les devis
+      - voir les devis
+      - tous les devis
+      - montre-moi les devis
+      - devis
+      - mes devis
+
+  - intent: view_quotation
+    examples: |
+      - voir le devis
+      - afficher devis
+      - détails du devis
+      - ouvrir le devis
+
+  # Gestion des factures
+  - intent: create_invoice
+    examples: |
+      - créer une facture
+      - nouvelle facture
+      - faire une facture
+      - ajouter une facture
+      - facture pour [Dupont](customer_name)
+      - créer facture client [Martin](customer_name)
+
+  - intent: list_invoices
+    examples: |
+      - liste des factures
+      - afficher les factures
+      - voir les factures
+      - toutes les factures
+      - montre-moi les factures
+      - factures
+      - mes factures
+      - factures payées
+      - factures impayées
+      - factures en attente
+
+  - intent: view_invoice
+    examples: |
+      - voir la facture
+      - afficher facture
+      - détails de la facture
+      - ouvrir la facture
+
+  # Gestion du stock
+  - intent: list_items
+    examples: |
+      - liste des articles
+      - afficher les articles
+      - voir les articles
+      - tous les articles
+      - catalogue
+      - produits
+      - items
+      - articles disponibles
+
+  - intent: search_item
+    examples: |
+      - chercher un article
+      - rechercher [Pain](item_name)
+      - trouver l'article [Croissant](item_name)
+      - article [Baguette](item_name)
+      - où est [Pain complet](item_name)
+
+  - intent: check_stock
+    examples: |
+      - vérifier le stock
+      - niveau de stock
+      - combien en stock
+      - stock disponible
+      - état du stock
+      - inventaire
+      - stock de [Pain](item_name)
+      - combien de [Croissants](item_name) en stock
+      - niveau stock [Baguette](item_name)
+
+  - intent: low_stock_alert
+    examples: |
+      - alertes stock
+      - stock faible
+      - articles en rupture
+      - rupture de stock
+      - stock bas
+      - articles à commander
+
+  # Rapports
+  - intent: sales_report
+    examples: |
+      - rapport des ventes
+      - rapport de ventes
+      - ventes
+      - chiffre d'affaires
+      - statistiques ventes
+      - analyse des ventes
+      - performance des ventes
+      - total des ventes
+
+  - intent: customer_report
+    examples: |
+      - rapport clients
+      - statistiques clients
+      - analyse clients
+      - répartition clients
+      - segments clients
+
+  - intent: stock_report
+    examples: |
+      - rapport stock
+      - rapport de stock
+      - statistiques stock
+      - analyse stock
+      - état des stocks
+      - inventaire complet
+
+  - intent: financial_report
+    examples: |
+      - rapport financier
+      - finances
+      - trésorerie
+      - revenus
+      - dépenses
+      - bilan
+      - compte de résultat
+      - analyse financière
+
+  - intent: dashboard
+    examples: |
+      - dashboard
+      - tableau de bord
+      - vue d'ensemble
+      - résumé
+      - statistiques globales
+      - métriques
+      - KPI
+      - indicateurs
+
+  - intent: reports_menu
+    examples: |
+      - rapports
+      - menu rapports
+      - voir les rapports
+      - statistiques
+      - analytics
+      - analyses
