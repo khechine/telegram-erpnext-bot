@@ -150,6 +150,13 @@ class TelegramBot {
     this.bot.action('report_stock', (ctx) => reportController.showStockReport(ctx));
     this.bot.action('report_financial', (ctx) => reportController.showFinancialReport(ctx));
     this.bot.action('report_dashboard', (ctx) => reportController.showDashboard(ctx));
+
+    // Rapports POS
+    this.bot.action('report_pos_menu', (ctx) => reportController.showPOSMenu(ctx));
+    this.bot.action('report_pos_daily', (ctx) => reportController.showPOSDailyReport(ctx));
+    this.bot.action('report_pos_bestsellers', (ctx) => reportController.showBestSellersReport(ctx));
+    this.bot.action('report_pos_bestseller', (ctx) => reportController.showBestSellerReport(ctx));
+    this.bot.action('report_pos_cashier', (ctx) => reportController.showCashierStatusReport(ctx));
   }
 
   /**
@@ -296,6 +303,35 @@ class TelegramBot {
 
         case 'reports_menu':
           await reportController.showReportsMenu(ctx);
+          break;
+
+        // POS
+        case 'pos_daily':
+        case 'daily_revenue':
+        case 'recette_jour':
+          await reportController.showPOSDailyReport(ctx);
+          break;
+
+        case 'pos_bestsellers':
+        case 'best_items':
+        case 'meilleurs_articles':
+          await reportController.showBestSellersReport(ctx);
+          break;
+
+        case 'pos_bestseller':
+        case 'best_seller':
+        case 'meilleur_vendeur':
+          await reportController.showBestSellerReport(ctx);
+          break;
+
+        case 'pos_cashier':
+        case 'cashier_status':
+        case 'etat_caisse':
+          await reportController.showCashierStatusReport(ctx);
+          break;
+
+        case 'pos_menu':
+          await reportController.showPOSMenu(ctx);
           break;
 
         // Inconnu

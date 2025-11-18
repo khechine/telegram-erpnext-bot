@@ -44,6 +44,13 @@ intents:
   - dashboard
   - reports_menu
 
+  # POS
+  - pos_menu
+  - pos_daily
+  - pos_bestsellers
+  - pos_bestseller
+  - pos_cashier
+
 entities:
   - name
   - email

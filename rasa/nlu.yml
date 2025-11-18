@@ -276,3 +276,67 @@ nlu:
       - statistiques
       - analytics
       - analyses
+
+  # POS
+  - intent: pos_menu
+    examples: |
+      - pos
+      - menu pos
+      - point de vente
+      - caisse
+      - rapports pos
+      - rapports caisse
+
+  - intent: pos_daily
+    examples: |
+      - recette du jour
+      - recettes du jour
+      - ventes du jour
+      - chiffre du jour
+      - ca du jour
+      - combien de ventes aujourd'hui
+      - total du jour
+      - recette journalière
+      - ventes journalières
+      - revenus du jour
+      - combien on a fait aujourd'hui
+      - recette pos du jour
+
+  - intent: pos_bestsellers
+    examples: |
+      - meilleurs articles
+      - articles les plus vendus
+      - best sellers
+      - top ventes
+      - produits populaires
+      - quels articles se vendent le mieux
+      - articles populaires
+      - top produits
+      - meilleurs produits vendus
+
+  - intent: pos_bestseller
+    examples: |
+      - meilleur vendeur
+      - meilleurs vendeurs
+      - classement vendeurs
+      - performance vendeurs
+      - qui a vendu le plus
+      - top vendeur
+      - vendeur du jour
+      - statistiques vendeurs
+      - performance des vendeurs
+      - quel vendeur a fait le plus
+      - classement des vendeurs
+
+  - intent: pos_cashier
+    examples: |
+      - état de la caisse
+      - caisse ouverte
+      - caisse fermée
+      - ouverture caisse
+      - fermeture caisse
+      - statut caisse
+      - la caisse est ouverte
+      - qui a ouvert la caisse
+      - état caisse
+      - situation caisse

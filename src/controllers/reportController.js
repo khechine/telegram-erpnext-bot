@@ -9,7 +9,7 @@ class ReportController {
    */
   async showReportsMenu(ctx) {
     const text = '📊 *Rapports et Statistiques*\n\nChoisissez un rapport :';
-    
+
     const keyboard = Markup.inlineKeyboard([
       [
         Markup.button.callback('💰 Ventes', 'report_sales'),
@@ -20,7 +20,30 @@ class ReportController {
         Markup.button.callback('📈 Financier', 'report_financial'),
       ],
       [Markup.button.callback('📊 Dashboard', 'report_dashboard')],
+      [Markup.button.callback('🏪 POS', 'report_pos_menu')],
       [Markup.button.callback('↩️ Menu principal', 'main_menu')],
+    ]);
+
+    if (ctx.callbackQuery) {
+      await ctx.editMessageText(text, { parse_mode: 'Markdown', ...keyboard });
+      await ctx.answerCbQuery();
+    } else {
+      await ctx.reply(text, { parse_mode: 'Markdown', ...keyboard });
+    }
+  }
+
+  /**
+   * Afficher le menu POS
+   */
+  async showPOSMenu(ctx) {
+    const text = '🏪 *Rapports POS*\n\nChoisissez un rapport :';
+
+    const keyboard = Markup.inlineKeyboard([
+      [Markup.button.callback('💵 Recette du jour', 'report_pos_daily')],
+      [Markup.button.callback('🏆 Meilleurs articles', 'report_pos_bestsellers')],
+      [Markup.button.callback('👑 Meilleur vendeur', 'report_pos_bestseller')],
+      [Markup.button.callback('🏦 État de la caisse', 'report_pos_cashier')],
+      [Markup.button.callback('↩️ Menu rapports', 'menu_reports')],
     ]);
 
     if (ctx.callbackQuery) {
@@ -421,6 +444,225 @@ class ReportController {
     } catch (error) {
       logger.error('Dashboard error:', error);
       await ctx.reply('❌ Erreur lors de la génération du dashboard.');
+    }
+  }
+
+  /**
+   * Rapport POS - Recette du jour
+   */
+  async showPOSDailyReport(ctx) {
+    try {
+      if (ctx.callbackQuery) {
+        await ctx.answerCbQuery();
+      }
+      await ctx.reply('⏳ Génération du rapport POS du jour...');
+
+      const dailyData = await erpnext.getDailyPOSRevenue();
+
+      let message = `🏪 *Recette du Jour (POS)*\n\n`;
+      message += `📅 Date: ${moment(dailyData.date).format('DD/MM/YYYY')}\n\n`;
+
+      message += `💰 *Résumé*\n`;
+      message += `━━━━━━━━━━━━━━━━━\n`;
+      message += `📋 Nombre de ventes: ${dailyData.invoiceCount}\n`;
+      message += `💵 Total recettes: ${dailyData.totalRevenue.toFixed(2)} TND\n`;
+      message += `✅ Total encaissé: ${dailyData.totalPaid.toFixed(2)} TND\n\n`;
+
+      if (Object.keys(dailyData.byUser).length > 0) {
+        message += `👥 *Par Vendeur*\n`;
+        message += `━━━━━━━━━━━━━━━━━\n`;
+        Object.entries(dailyData.byUser)
+          .sort((a, b) => b[1].total - a[1].total)
+          .forEach(([user, data]) => {
+            const userName = user.split('@')[0] || user;
+            message += `• ${userName}: ${data.total.toFixed(2)} TND (${data.count} ventes)\n`;
+          });
+      }
+
+      await ctx.reply(
+        message,
+        {
+          parse_mode: 'Markdown',
+          ...Markup.inlineKeyboard([
+            [Markup.button.callback('🏆 Meilleurs articles', 'report_pos_bestsellers')],
+            [Markup.button.callback('🔄 Actualiser', 'report_pos_daily')],
+            [Markup.button.callback('↩️ Menu rapports', 'menu_reports')],
+          ]),
+        }
+      );
+
+    } catch (error) {
+      logger.error('POS daily report error:', error);
+      await ctx.reply('❌ Erreur lors de la génération du rapport POS.');
+    }
+  }
+
+  /**
+   * Rapport POS - Meilleurs articles vendus
+   */
+  async showBestSellersReport(ctx) {
+    try {
+      if (ctx.callbackQuery) {
+        await ctx.answerCbQuery();
+      }
+      await ctx.reply('⏳ Recherche des meilleurs articles...');
+
+      const bestItems = await erpnext.getBestSellingItems(null, null, 10);
+
+      if (!bestItems || bestItems.length === 0) {
+        await ctx.reply(
+          '📭 Aucune vente POS trouvée pour aujourd\'hui.',
+          Markup.inlineKeyboard([
+            [Markup.button.callback('↩️ Menu rapports', 'menu_reports')],
+          ])
+        );
+        return;
+      }
+
+      let message = `🏆 *Meilleurs Articles du Jour*\n\n`;
+
+      bestItems.forEach((item, index) => {
+        const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}.`;
+        message += `${medal} *${item.item_name}*\n`;
+        message += `   📦 Qté vendue: ${item.qty}\n`;
+        message += `   💰 Montant: ${item.amount.toFixed(2)} TND\n\n`;
+      });
+
+      await ctx.reply(
+        message,
+        {
+          parse_mode: 'Markdown',
+          ...Markup.inlineKeyboard([
+            [Markup.button.callback('💵 Recette du jour', 'report_pos_daily')],
+            [Markup.button.callback('↩️ Menu rapports', 'menu_reports')],
+          ]),
+        }
+      );
+
+    } catch (error) {
+      logger.error('Best sellers report error:', error);
+      await ctx.reply('❌ Erreur lors de la génération du rapport.');
+    }
+  }
+
+  /**
+   * Rapport POS - État de la caisse
+   */
+  async showCashierStatusReport(ctx) {
+    try {
+      if (ctx.callbackQuery) {
+        await ctx.answerCbQuery();
+      }
+      await ctx.reply('⏳ Vérification de l\'état de la caisse...');
+
+      const cashierData = await erpnext.getPOSCashierStatus();
+
+      let message = `🏦 *État de la Caisse*\n\n`;
+      message += `📅 Date: ${moment(cashierData.date).format('DD/MM/YYYY')}\n\n`;
+
+      // Statut global
+      if (cashierData.hasOpenSession) {
+        message += `✅ *Statut: Caisse ouverte*\n\n`;
+      } else {
+        message += `🔴 *Statut: Caisse fermée*\n\n`;
+      }
+
+      // Ouvertures
+      if (cashierData.openings && cashierData.openings.length > 0) {
+        message += `📂 *Ouvertures du jour*\n`;
+        message += `━━━━━━━━━━━━━━━━━\n`;
+        cashierData.openings.forEach(opening => {
+          const userName = opening.user?.split('@')[0] || opening.user;
+          const statusEmoji = opening.status === 'Open' ? '🟢' : '🔴';
+          message += `${statusEmoji} ${opening.name}\n`;
+          message += `   👤 ${userName}\n`;
+          message += `   📍 ${opening.pos_profile || 'N/A'}\n\n`;
+        });
+      } else {
+        message += `📂 Aucune ouverture de caisse aujourd'hui\n\n`;
+      }
+
+      // Fermetures
+      if (cashierData.closings && cashierData.closings.length > 0) {
+        message += `📁 *Fermetures du jour*\n`;
+        message += `━━━━━━━━━━━━━━━━━\n`;
+        cashierData.closings.forEach(closing => {
+          const userName = closing.user?.split('@')[0] || closing.user;
+          message += `• ${closing.name}\n`;
+          message += `   👤 ${userName}\n`;
+          message += `   💰 Total: ${closing.grand_total?.toFixed(2) || 0} TND\n`;
+          message += `   📦 Articles: ${closing.total_quantity || 0}\n\n`;
+        });
+      }
+
+      await ctx.reply(
+        message,
+        {
+          parse_mode: 'Markdown',
+          ...Markup.inlineKeyboard([
+            [Markup.button.callback('💵 Recette du jour', 'report_pos_daily')],
+            [Markup.button.callback('🔄 Actualiser', 'report_pos_cashier')],
+            [Markup.button.callback('↩️ Menu rapports', 'menu_reports')],
+          ]),
+        }
+      );
+
+    } catch (error) {
+      logger.error('Cashier status report error:', error);
+      await ctx.reply('❌ Erreur lors de la vérification de la caisse.');
+    }
+  }
+
+  /**
+   * Rapport POS - Meilleur vendeur
+   */
+  async showBestSellerReport(ctx) {
+    try {
+      if (ctx.callbackQuery) {
+        await ctx.answerCbQuery();
+      }
+      await ctx.reply('⏳ Analyse des performances vendeurs...');
+
+      const salesPersonData = await erpnext.getSalesPersonStats();
+
+      if (!salesPersonData || salesPersonData.length === 0) {
+        await ctx.reply(
+          '📭 Aucune vente POS trouvée pour aujourd\'hui.',
+          Markup.inlineKeyboard([
+            [Markup.button.callback('↩️ Menu rapports', 'menu_reports')],
+          ])
+        );
+        return;
+      }
+
+      let message = `👑 *Classement des Vendeurs*\n\n`;
+      message += `📅 Date: ${moment().format('DD/MM/YYYY')}\n\n`;
+
+      salesPersonData.forEach((person, index) => {
+        const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}.`;
+        const userName = person.user?.split('@')[0] || person.user;
+        message += `${medal} *${userName}*\n`;
+        message += `   💰 Ventes: ${person.totalSales.toFixed(2)} TND\n`;
+        message += `   📋 Transactions: ${person.invoiceCount}\n`;
+        const avgSale = person.invoiceCount > 0 ? (person.totalSales / person.invoiceCount).toFixed(2) : 0;
+        message += `   📊 Panier moyen: ${avgSale} TND\n\n`;
+      });
+
+      await ctx.reply(
+        message,
+        {
+          parse_mode: 'Markdown',
+          ...Markup.inlineKeyboard([
+            [Markup.button.callback('💵 Recette du jour', 'report_pos_daily')],
+            [Markup.button.callback('🔄 Actualiser', 'report_pos_bestseller')],
+            [Markup.button.callback('↩️ Menu rapports', 'menu_reports')],
+          ]),
+        }
+      );
+
+    } catch (error) {
+      logger.error('Best seller report error:', error);
+      await ctx.reply('❌ Erreur lors de la génération du classement.');
     }
   }
 
