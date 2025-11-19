@@ -41,8 +41,18 @@ class RasaService {
 
       return this.formatRasaResponse(response.data);
     } catch (error) {
-      logger.error('Rasa parse error:', error.message);
-      return this.createFallbackIntent(text);
+      const errorMsg = error.response?.data?.message || error.message || 'Unknown error';
+      logger.error('Rasa parse error:', errorMsg);
+      // Fallback to regex-based intent detection
+      return {
+        text,
+        intent: {
+          name: this.determineIntentFromText(text),
+          confidence: 0.5,
+        },
+        entities: this.extractEntitiesFromText(text),
+        intents: [],
+      };
     }
   }
 
@@ -112,46 +122,91 @@ class RasaService {
       return lowerText.slice(1);
     }
 
+    // Salutations
+    if (lowerText.match(/bonjour|salut|hello|aslema|marhba|labess|salam|ahla/)) {
+      return 'greet';
+    }
+
+    // Au revoir
+    if (lowerText.match(/bye|revoir|bslema|beslama/)) {
+      return 'goodbye';
+    }
+
     // Intentions de navigation
-    if (lowerText.match(/menu|accueil|retour/)) {
+    if (lowerText.match(/menu|accueil|retour|rja3|arja3/)) {
       return 'menu';
     }
 
+    // Aide
+    if (lowerText.match(/aide|help|3awenni|kifech/)) {
+      return 'help';
+    }
+
+    // POS - Recette du jour
+    if (lowerText.match(/recette.*jour|ventes.*jour|chiffre.*jour|qadech.*lyoum|ch7al.*lyoum|b3na.*lyoum|jbedna/)) {
+      return 'pos_daily';
+    }
+
+    // POS - Meilleur vendeur
+    if (lowerText.match(/meilleur.*vendeur|top.*vendeur|classement.*vendeur|chkoun.*ba3|performance.*vendeur/)) {
+      return 'pos_bestseller';
+    }
+
+    // POS - Meilleurs articles
+    if (lowerText.match(/meilleur.*article|best.*seller|top.*vente|top.*produit|yemchi.*behi|temchew/)) {
+      return 'pos_bestsellers';
+    }
+
+    // POS - Caisse
+    if (lowerText.match(/caisse|7alat.*caisse|caisse.*ouvert|caisse.*ferm|fta7.*caisse/)) {
+      return 'pos_cashier';
+    }
+
+    // POS Menu
+    if (lowerText.match(/\bpos\b|point.*vente/)) {
+      return 'pos_menu';
+    }
+
     // Clients
-    if (lowerText.match(/client|customer/)) {
-      if (lowerText.match(/créer|ajouter|nouveau/)) return 'create_customer';
-      if (lowerText.match(/liste|voir|afficher/)) return 'list_customers';
-      if (lowerText.match(/chercher|recherch|trouver/)) return 'search_customer';
+    if (lowerText.match(/client|customer|zaboun|zabyen/)) {
+      if (lowerText.match(/créer|ajouter|nouveau|zid|jdid/)) return 'create_customer';
+      if (lowerText.match(/liste|voir|afficher|warini|chkoun/)) return 'list_customers';
+      if (lowerText.match(/chercher|recherch|trouver|lawej|9aleb/)) return 'search_customer';
       return 'list_customers';
     }
 
     // Devis
-    if (lowerText.match(/devis|quotation/)) {
-      if (lowerText.match(/créer|nouveau/)) return 'create_quotation';
-      if (lowerText.match(/liste|voir/)) return 'list_quotations';
-      if (lowerText.match(/envoyer|email|mail|transmettre/)) return 'send_quotation';
+    if (lowerText.match(/devis|quotation|offre.*prix|proforma/)) {
+      if (lowerText.match(/créer|nouveau|zid|jdid|na3mel|5ali/)) return 'create_quotation';
+      if (lowerText.match(/liste|voir|warini/)) return 'list_quotations';
+      if (lowerText.match(/envoyer|email|mail|transmettre|ab3ath/)) return 'send_quotation';
       return 'list_quotations';
     }
 
     // Factures
     if (lowerText.match(/facture|invoice/)) {
-      if (lowerText.match(/créer|nouveau/)) return 'create_invoice';
-      if (lowerText.match(/liste|voir/)) return 'list_invoices';
+      if (lowerText.match(/créer|nouveau|zid|jdid/)) return 'create_invoice';
+      if (lowerText.match(/liste|voir|warini/)) return 'list_invoices';
       return 'list_invoices';
     }
 
     // Stock
-    if (lowerText.match(/stock|article|produit|item/)) {
-      if (lowerText.match(/niveau|état|check/)) return 'check_stock';
+    if (lowerText.match(/stock|article|produit|item|makhzen|mar9a/)) {
+      if (lowerText.match(/niveau|état|check|qadech|ch7al|baki/)) return 'check_stock';
       return 'list_items';
     }
 
     // Rapports
-    if (lowerText.match(/rapport|report|statistique|dashboard/)) {
+    if (lowerText.match(/rapport|report|statistique|dashboard|stats/)) {
       if (lowerText.match(/vente|sales/)) return 'sales_report';
-      if (lowerText.match(/financier|finance/)) return 'financial_report';
+      if (lowerText.match(/financier|finance|flous/)) return 'financial_report';
       if (lowerText.match(/stock/)) return 'stock_report';
       return 'reports_menu';
+    }
+
+    // Dashboard
+    if (lowerText.match(/dashboard|tableau.*bord|résumé|kolchi/)) {
+      return 'dashboard';
     }
 
     return 'unknown';
