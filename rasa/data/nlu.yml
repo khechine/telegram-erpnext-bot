@@ -9,12 +9,12 @@ nlu:
       - hey
       - hello
       - bonsoir
-      - bonne journée
       - coucou
       - yo
       - bjr
       - slt
       - cc
+      - sba7 el khir
       - aslema
       - asslema
       - سلام
@@ -109,10 +109,8 @@ nlu:
       - home
       - revenir en arrière
       - arja3 lel menu
-      - menu principal
       - warini el menu
       - el menu
-      - accueil
       - rja3
       - reje3ni
       - الرجوع
@@ -269,6 +267,7 @@ nlu:
       - email le devis
       - transmettre le devis
       - envoyer devis [QUO-2024-001](quotation_name)
+      - envoyer [QUO-2024-002](quotation_name) par email
       - envoyer par email le devis
       - mail le devis au client
       - je veux envoyer un devis
@@ -342,7 +341,7 @@ nlu:
       - les produit
       - kol el articles
       - chneya 3andi fel stock
-      - inventaire
+      - liste produits
 
   - intent: search_item
     examples: |

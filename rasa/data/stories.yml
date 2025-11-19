@@ -1,28 +1,12 @@
 version: "3.1"
 
 stories:
-  - story: Créer un client simple
+  - story: greet path
     steps:
       - intent: greet
       - action: utter_greet
-      - intent: create_customer
-      - action: utter_ask_customer_name
-      - intent: inform
-      - action: utter_confirm_customer
 
-  - story: Consulter les clients
+  - story: goodbye path
     steps:
-      - intent: list_customers
-      - action: utter_show_customers
-
-  - story: Voir les rapports
-    steps:
-      - intent: reports_menu
-      - action: utter_reports_menu
-      - intent: sales_report
-      - action: utter_sales_report
-
-  - story: Dashboard
-    steps:
-      - intent: dashboard
-      - action: utter_dashboard
+      - intent: goodbye
+      - action: utter_goodbye

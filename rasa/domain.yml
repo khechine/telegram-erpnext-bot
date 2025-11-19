@@ -8,34 +8,29 @@ intents:
   - deny
   - menu
   - help
-  
+
   # Clients
   - create_customer
   - list_customers
   - search_customer
-  - update_customer
-  - delete_customer
-  
+
   # Devis
   - create_quotation
   - list_quotations
-  - search_quotation
   - view_quotation
   - send_quotation
-  
+
   # Factures
   - create_invoice
   - list_invoices
-  - search_invoice
   - view_invoice
-  - pay_invoice
-  
+
   # Stock
   - list_items
   - search_item
   - check_stock
   - low_stock_alert
-  
+
   # Rapports
   - sales_report
   - customer_report
@@ -76,25 +71,25 @@ slots:
     mappings:
       - type: from_entity
         entity: customer_name
-  
+
   email:
     type: text
     mappings:
       - type: from_entity
         entity: email
-  
+
   phone:
     type: text
     mappings:
       - type: from_entity
         entity: phone
-  
+
   item_code:
     type: text
     mappings:
       - type: from_entity
         entity: item_code
-  
+
   amount:
     type: float
     mappings:
@@ -104,10 +99,10 @@ slots:
 responses:
   utter_greet:
     - text: "Bonjour ! Comment puis-je vous aider aujourd'hui ?"
-  
+
   utter_goodbye:
     - text: "Au revoir ! À bientôt !"
-  
+
   utter_default:
     - text: "Désolé, je n'ai pas compris. Pouvez-vous reformuler ?"
 
