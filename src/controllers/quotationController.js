@@ -175,7 +175,7 @@ class QuotationController {
       await ctx.reply(
         `✅ Client: *${customerName}*\n` +
         `📧 Email: ${customer.email_id || 'Non renseigné'}\n\n` +
-        '📦 Entrez le code de l\'article (ou "fini" pour terminer) :',
+        '📦 Entrez le nom ou code de l\'article (ou "fini" pour terminer) :',
         { parse_mode: 'Markdown' }
       );
     } catch (error) {
@@ -191,22 +191,22 @@ class QuotationController {
   }
 
   /**
-   * Gérer le code article
+   * Gérer le code/nom article
    */
   async handleQuotationItemCode(ctx) {
-    const itemCode = ctx.message.text.trim();
+    const itemSearch = ctx.message.text.trim();
 
-    if (itemCode.toLowerCase() === 'fini') {
+    if (itemSearch.toLowerCase() === 'fini') {
       if (ctx.session.state.data.items.length === 0) {
-        await ctx.reply('❌ Vous devez ajouter au moins un article. Entrez un code article :');
+        await ctx.reply('❌ Vous devez ajouter au moins un article. Entrez un nom ou code article :');
         return;
       }
-      
+
       // Passer à la date de validité
       ctx.session.state.waitingFor = 'quotation_valid_till';
-      
+
       const itemsList = ctx.session.state.data.items
-        .map((item, i) => `${i + 1}. ${item.code} × ${item.qty}`)
+        .map((item, i) => `${i + 1}. ${item.name} × ${item.qty}`)
         .join('\n');
 
       await ctx.reply(
@@ -218,11 +218,55 @@ class QuotationController {
     }
 
     try {
-      // Vérifier que l'article existe
-      const item = await erpnext.getItem(itemCode);
-      
+      let item = null;
+
+      // D'abord essayer par code exact
+      try {
+        item = await erpnext.getItem(itemSearch);
+      } catch {
+        // Si pas trouvé par code, chercher par nom
+        const items = await erpnext.listItems({ search: itemSearch }, 10);
+
+        if (!items || items.length === 0) {
+          await ctx.reply(
+            `❌ Aucun article trouvé pour "${itemSearch}".\n\n` +
+            'Entrez un nom ou code article valide, ou "fini" pour terminer :'
+          );
+          return;
+        }
+
+        if (items.length === 1) {
+          // Un seul résultat, l'utiliser directement
+          item = await erpnext.getItem(items[0].item_code);
+        } else {
+          // Plusieurs résultats, afficher la liste pour choisir
+          let message = `🔍 *${items.length} articles trouvés pour "${itemSearch}":*\n\n`;
+
+          const buttons = [];
+          items.slice(0, 5).forEach((it, index) => {
+            message += `${index + 1}. *${it.item_name}*\n`;
+            message += `   Code: ${it.item_code}\n`;
+            message += `   Prix: ${it.standard_rate?.toFixed(2) || '0.00'} TND\n\n`;
+            buttons.push([
+              Markup.button.callback(`${index + 1}. ${it.item_name.substring(0, 30)}`, `item_select_${it.item_code}`)
+            ]);
+          });
+
+          message += 'Sélectionnez un article ou tapez un autre nom :';
+
+          // Sauvegarder l'état pour la sélection
+          ctx.session.state.waitingFor = 'quotation_item_code';
+
+          await ctx.reply(message, {
+            parse_mode: 'Markdown',
+            ...Markup.inlineKeyboard(buttons),
+          });
+          return;
+        }
+      }
+
       ctx.session.state.data.currentItem = {
-        code: itemCode,
+        code: item.item_code || item.name,
         name: item.item_name,
         rate: item.standard_rate || 0,
       };
@@ -230,16 +274,44 @@ class QuotationController {
 
       await ctx.reply(
         `✅ Article: *${item.item_name}*\n` +
-        `💰 Prix: ${item.standard_rate?.toFixed(2)} TND\n\n` +
+        `💰 Prix: ${item.standard_rate?.toFixed(2) || '0.00'} TND\n\n` +
         '🔢 Entrez la quantité :',
         { parse_mode: 'Markdown' }
       );
     } catch (error) {
       logger.error('Get item error:', error);
       await ctx.reply(
-        `❌ Article "${itemCode}" introuvable.\n\n` +
-        'Entrez un code article valide, ou "fini" pour terminer :'
+        `❌ Erreur lors de la recherche de "${itemSearch}".\n\n` +
+        'Entrez un nom ou code article valide, ou "fini" pour terminer :'
       );
+    }
+  }
+
+  /**
+   * Gérer la sélection d'un article depuis la liste
+   */
+  async handleItemSelect(ctx, itemCode) {
+    try {
+      await ctx.answerCbQuery();
+
+      const item = await erpnext.getItem(itemCode);
+
+      ctx.session.state.data.currentItem = {
+        code: item.item_code || item.name,
+        name: item.item_name,
+        rate: item.standard_rate || 0,
+      };
+      ctx.session.state.waitingFor = 'quotation_item_qty';
+
+      await ctx.reply(
+        `✅ Article sélectionné: *${item.item_name}*\n` +
+        `💰 Prix: ${item.standard_rate?.toFixed(2) || '0.00'} TND\n\n` +
+        '🔢 Entrez la quantité :',
+        { parse_mode: 'Markdown' }
+      );
+    } catch (error) {
+      logger.error('Item select error:', error);
+      await ctx.reply('❌ Erreur lors de la sélection de l\'article.');
     }
   }
 
@@ -269,7 +341,7 @@ class QuotationController {
     const total = qty * currentItem.rate;
     await ctx.reply(
       `✅ Article ajouté: ${currentItem.name} × ${qty} = ${total.toFixed(2)} TND\n\n` +
-      '📦 Entrez le code d\'un autre article, ou "fini" pour terminer :'
+      '📦 Entrez le nom ou code d\'un autre article, ou "fini" pour terminer :'
     );
   }
 

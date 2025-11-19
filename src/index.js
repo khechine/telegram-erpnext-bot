@@ -38,6 +38,9 @@ process.on('uncaughtException', (error) => {
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
-  process.exit(1);
+  logger.error('Unhandled Rejection:', reason);
+  if (reason instanceof Error) {
+    logger.error('Stack:', reason.stack);
+  }
+  // Don't exit to keep bot running
 });

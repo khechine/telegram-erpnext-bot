@@ -139,6 +139,10 @@ class TelegramBot {
       const quotationName = ctx.match[1];
       return quotationController.sendQuotationByEmail(ctx, quotationName);
     });
+    this.bot.action(/^item_select_(.+)$/, (ctx) => {
+      const itemCode = ctx.match[1];
+      return quotationController.handleItemSelect(ctx, itemCode);
+    });
 
     // Factures
     this.bot.action('invoice_list', (ctx) => invoiceController.listInvoices(ctx));

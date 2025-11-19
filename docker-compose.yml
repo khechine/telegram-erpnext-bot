@@ -24,6 +24,7 @@ services:
     container_name: rasa-server
     restart: unless-stopped
     command: run --enable-api --cors "*"
+    user: "1000:1000"
     volumes:
       - ./rasa:/app
     ports:
