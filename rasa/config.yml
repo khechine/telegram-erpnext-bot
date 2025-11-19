@@ -1,33 +1,51 @@
 language: fr
 
 pipeline:
-  # Tokenization
+  # Tokenization - meilleur pour texte mixte français/arabe
   - name: WhitespaceTokenizer
-  
+    intent_tokenization_flag: true
+    intent_split_symbol: "+"
+
   # Featurization
   - name: RegexFeaturizer
   - name: LexicalSyntacticFeaturizer
   - name: CountVectorsFeaturizer
+    analyzer: word
+    min_ngram: 1
+    max_ngram: 2
   - name: CountVectorsFeaturizer
     analyzer: char_wb
     min_ngram: 1
     max_ngram: 4
-  
-  # Intent Classification
+
+  # Intent Classification - plus d'epochs pour meilleure précision
   - name: DIETClassifier
-    epochs: 100
+    epochs: 150
     constrain_similarities: true
     model_confidence: softmax
-  
+    embedding_dimension: 20
+    transformer_size: 256
+    number_of_transformer_layers: 2
+    drop_rate: 0.2
+    weight_sparsity: 0.8
+
   # Entity Extraction
   - name: EntitySynonymMapper
   - name: ResponseSelector
     epochs: 100
     constrain_similarities: true
 
+  # Fallback pour les messages non reconnus
+  - name: FallbackClassifier
+    threshold: 0.4
+    ambiguity_threshold: 0.1
+
 policies:
   - name: MemoizationPolicy
   - name: RulePolicy
+    core_fallback_threshold: 0.4
+    core_fallback_action_name: "action_default_fallback"
+    enable_fallback_prediction: true
   - name: UnexpecTEDIntentPolicy
     max_history: 5
     epochs: 100

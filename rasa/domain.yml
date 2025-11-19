@@ -51,6 +51,9 @@ intents:
   - pos_bestseller
   - pos_cashier
 
+  # Fallback
+  - nlu_fallback
+
 entities:
   - name
   - email

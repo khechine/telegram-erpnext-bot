@@ -1,7 +1,7 @@
 version: "3.1"
 
 nlu:
-  # Navigation et salutations
+  # ================== NAVIGATION ET SALUTATIONS ==================
   - intent: greet
     examples: |
       - bonjour
@@ -12,6 +12,25 @@ nlu:
       - bonne journée
       - coucou
       - yo
+      - bjr
+      - slt
+      - cc
+      - aslema
+      - asslema
+      - سلام
+      - ahla
+      - ahla bik
+      - marhba
+      - marhbé
+      - salam
+      - salem
+      - wesh
+      - cv
+      - ça va
+      - labess
+      - labés
+      - kifech
+      - chneya 7walek
 
   - intent: goodbye
     examples: |
@@ -21,8 +40,17 @@ nlu:
       - à plus
       - ciao
       - tchao
-      - salut
       - bonne journée
+      - a+
+      - ++
+      - bslema
+      - beslama
+      - yezzi
+      - nkamlou ba3d
+      - arja3li ba3d
+      - تصبح على خير
+      - bonne nuit
+      - allah ysalmek
 
   - intent: affirm
     examples: |
@@ -35,6 +63,21 @@ nlu:
       - exact
       - correct
       - affirmatif
+      - ey
+      - eywa
+      - ih
+      - ايه
+      - نعم
+      - behi
+      - bahi
+      - صحيح
+      - mrigel
+      - mriguel
+      - tmam
+      - tayeb
+      - طيب
+      - wakha
+      - yweja
 
   - intent: deny
     examples: |
@@ -45,6 +88,16 @@ nlu:
       - négatif
       - nope
       - nan
+      - le
+      - lé
+      - لا
+      - mech hakeka
+      - mesh behi
+      - mahouch
+      - mahich
+      - مش هكاكا
+      - jamé
+      - may7eb
 
   - intent: menu
     examples: |
@@ -55,6 +108,14 @@ nlu:
       - accueil
       - home
       - revenir en arrière
+      - arja3 lel menu
+      - menu principal
+      - warini el menu
+      - el menu
+      - accueil
+      - rja3
+      - reje3ni
+      - الرجوع
 
   - intent: help
     examples: |
@@ -66,8 +127,19 @@ nlu:
       - commandes disponibles
       - fonctionnalités
       - guide
+      - 3awenni
+      - aawenni
+      - kifech na3mel
+      - chneya na3mel
+      - chnowa les commandes
+      - fahmeni
+      - وريني كيفاش
+      - aidini
+      - عاوني
+      - chna3mel
+      - j'ai besoin d'aide
 
-  # Gestion des clients
+  # ================== GESTION DES CLIENTS ==================
   - intent: create_customer
     examples: |
       - créer un client
@@ -81,6 +153,19 @@ nlu:
       - enregistrer [Entreprise ABC](name) email [contact@abc.com](email) tél [+21612345678](phone)
       - je veux créer un client
       - besoin de créer un nouveau client
+      - zid client
+      - zid client jdid
+      - na7eb nzid client
+      - sajjel client
+      - client jdid
+      - اضافة زبون
+      - زبون جديد
+      - 5ali client
+      - n7eb nzid wa7ed client
+      - ajoutili client
+      - crée moi un client
+      - nouvo client
+      - nouveau klient
 
   - intent: list_customers
     examples: |
@@ -93,6 +178,19 @@ nlu:
       - liste clients
       - quels sont mes clients
       - combien de clients
+      - les clients
+      - warini el clients
+      - warini les zaboun
+      - lista mta3 les clients
+      - el zabyen
+      - الزبائن
+      - liste el zaboun
+      - chkoun les clients
+      - affichi el clients
+      - les klients
+      - kol el clients
+      - qadech 3andi client
+      - ch7al men client
 
   - intent: search_customer
     examples: |
@@ -103,8 +201,14 @@ nlu:
       - client [ABC](customer_name)
       - recherche client
       - trouver un client
+      - 9aleb 3la client
+      - lawej 3la [Ahmed](customer_name)
+      - win el client [Mohamed](customer_name)
+      - fech client [Ali](customer_name)
+      - recherchi [Salah](customer_name)
+      - بحث عن زبون
 
-  # Gestion des devis
+  # ================== GESTION DES DEVIS ==================
   - intent: create_quotation
     examples: |
       - créer un devis
@@ -114,6 +218,20 @@ nlu:
       - devis pour [Dupont](customer_name)
       - créer devis client [Martin](customer_name)
       - je veux faire un devis
+      - na7eb na3mel devis
+      - zid devis
+      - devis jdid
+      - a3meli devis
+      - عرض أسعار
+      - عرض سعر جديد
+      - na3mel offre
+      - offre de prix
+      - cotation
+      - 5ali devis
+      - nouvo devis
+      - crée moi un devis
+      - facture proforma
+      - proforma
 
   - intent: list_quotations
     examples: |
@@ -124,6 +242,13 @@ nlu:
       - montre-moi les devis
       - devis
       - mes devis
+      - warini el devis
+      - lista mta3 el devis
+      - les offres
+      - kol el devis
+      - عروض الأسعار
+      - chkoun les devis
+      - qadech 3andi devis
 
   - intent: view_quotation
     examples: |
@@ -131,6 +256,9 @@ nlu:
       - afficher devis
       - détails du devis
       - ouvrir le devis
+      - warini devis
+      - fta7 el devis
+      - تفاصيل العرض
 
   - intent: send_quotation
     examples: |
@@ -145,8 +273,13 @@ nlu:
       - mail le devis au client
       - je veux envoyer un devis
       - peux-tu envoyer le devis
+      - ab3ath el devis
+      - ab3ath devis bel mail
+      - envoyi el devis
+      - ارسل العرض
+      - ابعث الديفي
 
-  # Gestion des factures
+  # ================== GESTION DES FACTURES ==================
   - intent: create_invoice
     examples: |
       - créer une facture
@@ -155,6 +288,11 @@ nlu:
       - ajouter une facture
       - facture pour [Dupont](customer_name)
       - créer facture client [Martin](customer_name)
+      - na3mel facture
+      - zid facture
+      - facture jdida
+      - فاتورة جديدة
+      - 5ali facture
 
   - intent: list_invoices
     examples: |
@@ -168,6 +306,13 @@ nlu:
       - factures payées
       - factures impayées
       - factures en attente
+      - warini el factures
+      - lista mta3 el factures
+      - الفواتير
+      - factures mech ma5lousa
+      - factures ma5lousa
+      - chkoun les factures
+      - qadech 3andi facture
 
   - intent: view_invoice
     examples: |
@@ -175,8 +320,11 @@ nlu:
       - afficher facture
       - détails de la facture
       - ouvrir la facture
+      - warini facture
+      - fta7 el facture
+      - تفاصيل الفاتورة
 
-  # Gestion du stock
+  # ================== GESTION DU STOCK ==================
   - intent: list_items
     examples: |
       - liste des articles
@@ -187,6 +335,14 @@ nlu:
       - produits
       - items
       - articles disponibles
+      - warini el produits
+      - lista mta3 el articles
+      - المنتجات
+      - el mar9a
+      - les produit
+      - kol el articles
+      - chneya 3andi fel stock
+      - inventaire
 
   - intent: search_item
     examples: |
@@ -195,6 +351,9 @@ nlu:
       - trouver l'article [Croissant](item_name)
       - article [Baguette](item_name)
       - où est [Pain complet](item_name)
+      - lawej 3la [khobz](item_name)
+      - 9aleb 3la [croissant](item_name)
+      - بحث عن منتج
 
   - intent: check_stock
     examples: |
@@ -207,6 +366,13 @@ nlu:
       - stock de [Pain](item_name)
       - combien de [Croissants](item_name) en stock
       - niveau stock [Baguette](item_name)
+      - qadech fel stock
+      - ch7al fel makhzen
+      - كمية المخزون
+      - 9adech baki
+      - el stock kifech
+      - warini el stock
+      - chkoun el articles li 5asrin
 
   - intent: low_stock_alert
     examples: |
@@ -216,8 +382,14 @@ nlu:
       - rupture de stock
       - stock bas
       - articles à commander
+      - chneya 5asar
+      - chneya na9es
+      - el articles li 5asrin
+      - تنبيه المخزون
+      - stock fi rouge
+      - aya 7aja na9sa
 
-  # Rapports
+  # ================== RAPPORTS ==================
   - intent: sales_report
     examples: |
       - rapport des ventes
@@ -228,6 +400,14 @@ nlu:
       - analyse des ventes
       - performance des ventes
       - total des ventes
+      - warini el ventes
+      - تقرير المبيعات
+      - qadech b3na
+      - ch7al darna lyoum
+      - el ca
+      - chiffre affaire
+      - les ventes mta3na
+      - recette globale
 
   - intent: customer_report
     examples: |
@@ -236,6 +416,9 @@ nlu:
       - analyse clients
       - répartition clients
       - segments clients
+      - تقرير الزبائن
+      - statistiques zaboun
+      - 7alat el clients
 
   - intent: stock_report
     examples: |
@@ -245,6 +428,9 @@ nlu:
       - analyse stock
       - état des stocks
       - inventaire complet
+      - تقرير المخزون
+      - 7alat el stock
+      - el makhzen kifech
 
   - intent: financial_report
     examples: |
@@ -256,6 +442,11 @@ nlu:
       - bilan
       - compte de résultat
       - analyse financière
+      - التقرير المالي
+      - el flous kifech
+      - 7alat el flous
+      - el ma9boudhat
+      - el masrouf
 
   - intent: dashboard
     examples: |
@@ -267,6 +458,10 @@ nlu:
       - métriques
       - KPI
       - indicateurs
+      - لوحة التحكم
+      - warini kolchi
+      - résumé général
+      - 7alat el projet
 
   - intent: reports_menu
     examples: |
@@ -276,8 +471,12 @@ nlu:
       - statistiques
       - analytics
       - analyses
+      - التقارير
+      - les rapports
+      - warini el stats
+      - el statistiques
 
-  # POS
+  # ================== POS ==================
   - intent: pos_menu
     examples: |
       - pos
@@ -286,6 +485,10 @@ nlu:
       - caisse
       - rapports pos
       - rapports caisse
+      - نقطة البيع
+      - el caisse
+      - pos lyoum
+      - el 7anout
 
   - intent: pos_daily
     examples: |
@@ -301,6 +504,19 @@ nlu:
       - revenus du jour
       - combien on a fait aujourd'hui
       - recette pos du jour
+      - qadech darna lyoum
+      - ch7al jbedna lyoum
+      - إيرادات اليوم
+      - el recette mta3 lyoum
+      - lyoum qadech
+      - chiffre lyoum
+      - ca lyouma
+      - ch7al b3na lyoum
+      - warini recette lyoum
+      - el flous mta3 lyoum
+      - combien aujourd'hui
+      - qadech lyouma
+      - el ventes mta3 lyoum
 
   - intent: pos_bestsellers
     examples: |
@@ -313,6 +529,15 @@ nlu:
       - articles populaires
       - top produits
       - meilleurs produits vendus
+      - أفضل المنتجات مبيعا
+      - chneya yemchi behi
+      - el articles li temchew
+      - chneya nb3ou akther
+      - top articles
+      - meilleur article
+      - produit star
+      - el mar9a li temchi
+      - chneya yetba3 akther
 
   - intent: pos_bestseller
     examples: |
@@ -327,6 +552,15 @@ nlu:
       - performance des vendeurs
       - quel vendeur a fait le plus
       - classement des vendeurs
+      - أفضل بائع
+      - chkoun ba3 akther
+      - el classement mta3 el vendeurs
+      - chkoun el meilleur
+      - vendeur mta3 lyoum
+      - chkoun yekhedm behi
+      - performance el ba3a
+      - el vendeur li ba3 akther
+      - top baya3
 
   - intent: pos_cashier
     examples: |
@@ -340,3 +574,21 @@ nlu:
       - qui a ouvert la caisse
       - état caisse
       - situation caisse
+      - حالة الصندوق
+      - el caisse maftouma
+      - el caisse ma8lou9a
+      - chkoun fta7 el caisse
+      - 7alat el caisse
+      - el caisse kifech
+      - warini el caisse
+      - caisse lyoum
+      - fond de caisse
+
+  # ================== EXPRESSIONS COMMUNES TUNISIENNES ==================
+  - intent: nlu_fallback
+    examples: |
+      - asdfghjkl
+      - xyz123
+      - ...
+      - ???
+      - !!!!
